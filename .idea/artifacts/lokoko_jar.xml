@@ -2,7 +2,7 @@
   <artifact type="jar" build-on-make="true" name="lokoko:jar">
     <output-path>$PROJECT_DIR$/classes/artifacts/lokoko_jar</output-path>
     <root id="archive" name="lokoko.jar">
-      <element id="module-output" name="lokoko" />
+      <element id="module-output" name="smtp" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/javax/activation/activation/1.1/activation-1.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/javax/mail/mail/1.4.3-rc1/mail-1.4.3-rc1.jar" path-in-jar="/" />
     </root>

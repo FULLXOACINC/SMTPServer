@@ -12,8 +12,9 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        try (SmtpServer dumbster = SmtpServer.start(SmtpServer.DEFAULT_SMTP_PORT)) {
-            //  Thread.sleep(1000000);
+
+        try {
+            SmtpServer dumbster = SmtpServer.start(SmtpServer.DEFAULT_SMTP_PORT);
             sendMessage(dumbster.getPort(), "sender@here.com", "Hello", "Hello world", "receiver@there.com");
             sendMessage(dumbster.getPort(), "sender@here.com", "Hello", "Hello world", "receiver@there.com");
             Thread.sleep(1000000);

@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="lokoko" />
+        <module name="smtp" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="lokoko" target="1.8" />
+      <module name="smtp" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

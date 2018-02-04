@@ -129,7 +129,7 @@ class SmtpRequest {
             }
             default: {
                 if (state != SmtpState.DATA_HDR && state != SmtpState.DATA_BODY) {
-                    response = new SmtpResponse(500, "Command not recognized" + action + " " + state, this.state);
+                    response = new SmtpResponse(500, "Command not recognized " + action + " " + state, this.state);
                 }
                 else {
                     response = new SmtpResponse(-1, "", this.state);
@@ -143,7 +143,7 @@ class SmtpRequest {
     static SmtpRequest createRequest(String line, SmtpState state) {
         SmtpActionType action;
         String params = null;
-        String su = line.toUpperCase();
+        String request = line.toUpperCase();
         switch (state) {
             case DATA_HDR: {
                 if (line.equals(".")) {
@@ -173,7 +173,8 @@ class SmtpRequest {
             }
             default: {
                 final int COMMAND_SIZE = 4;
-                String commandName = su.substring(0, COMMAND_SIZE);
+
+                String commandName = request.substring(0, COMMAND_SIZE);
                 switch (commandName) {
                     case "EHLO ": {
                         action = SmtpActionType.EHLO;
@@ -181,8 +182,8 @@ class SmtpRequest {
                         break;
                     }
                     case "MAIL FROM:": {
-                        action = SmtpActionType.EHLO;
-                        params = line.substring("EHLO ".length());
+                        action = SmtpActionType.MAIL;
+                        params = line.substring("MAIL FROM:".length());
                         break;
                     }
                     case "RCPT TO:": {
