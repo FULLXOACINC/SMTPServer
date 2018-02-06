@@ -22,4 +22,9 @@ class SmtpResponse {
     SmtpState getNextState() {
         return nextState;
     }
+
+    @Override
+    public String toString() {
+        return code + " " + message;
+    }
 }

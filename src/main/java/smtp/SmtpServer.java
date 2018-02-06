@@ -1,5 +1,13 @@
 package smtp;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -9,8 +17,10 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -19,6 +29,7 @@ public final class SmtpServer {
     public static final int DEFAULT_SMTP_PORT = 1337;
 
     private static final Pattern CRLF = Pattern.compile("\r\n");
+    private static JTextArea textArea;
 
     private final List<SmtpMessage> receivedMail;
 
@@ -104,7 +115,7 @@ public final class SmtpServer {
 
         while (smtpState != SmtpState.CONNECT) {
             String line = input.next();
-            System.out.println(line);
+            textArea.append(line + "\n");
             if (line == null) {
                 break;
             }
@@ -116,11 +127,14 @@ public final class SmtpServer {
 
             String params = request.params;
             msg.store(response, params);
-
-
+            if (smtpState == SmtpState.GREET) {
+                msg = new SmtpMessage();
+            }
             if (smtpState == SmtpState.QUIT) {
                 msgList.add(msg);
+                System.out.println(msg);
                 msg = new SmtpMessage();
+
             }
         }
 
@@ -129,10 +143,65 @@ public final class SmtpServer {
 
     private static void sendResponse(PrintWriter out, SmtpResponse smtpResponse) {
         if (smtpResponse.getCode() > 0) {
+            textArea.append(smtpResponse.toString() + "\n");
             int code = smtpResponse.getCode();
             String message = smtpResponse.getMessage();
             out.print(code + " " + message + "\r\n");
             out.flush();
         }
     }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("SMTP-Server");
+        frame.setSize(400, 500);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        textArea = new JTextArea();
+        textArea.setBackground(Color.decode("#2C001E"));
+        textArea.setForeground(Color.WHITE);
+        textArea.setEditable(false);
+        //frame.add(createMenuPanel(), BorderLayout.PAGE_START);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        frame.setVisible(true);
+        frame.add(scrollPane);
+
+        try {
+            SmtpServer dumbster = SmtpServer.start(SmtpServer.DEFAULT_SMTP_PORT);
+            //  sendMessage(dumbster.getPort(), "sender@here.com", "Hello", "Hello world", "receiver@there.com");
+            //  sendMessage(dumbster.getPort(), "sender@here.com", "Hello", "Hello world", "receiver@there.com");
+            // Thread.sleep(1000000);
+        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException | MessagingExceptione) {
+//            e.printStackTrace();
+        }
+    }
+
+    private static void sendMessage(int port, String from, String subject, String body, String to) throws MessagingException {
+        Properties mailProps = getMailProperties(port);
+        Session session = Session.getInstance(mailProps, null);
+
+
+        MimeMessage msg = createMessage(session, from, to, subject, body);
+        Transport.send(msg);
+    }
+
+    private static Properties getMailProperties(int port) {
+        Properties mailProps = new Properties();
+        mailProps.setProperty("mail.smtp.host", "localhost");
+        mailProps.setProperty("mail.smtp.port", "" + port);
+        mailProps.setProperty("mail.smtp.sendpartial", "true");
+        return mailProps;
+    }
+
+    private static MimeMessage createMessage(
+            Session session, String from, String to, String subject, String body) throws MessagingException {
+        MimeMessage msg = new MimeMessage(session);
+        msg.setFrom(new InternetAddress(from));
+        msg.setSubject(subject);
+        msg.setSentDate(new Date());
+        msg.setText(body);
+        msg.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+        return msg;
+    }
+
 }
