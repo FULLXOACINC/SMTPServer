@@ -1,5 +1,7 @@
 package smtp;
 
+import smtp.command.Command;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -31,7 +33,7 @@ public final class SmtpServer {
     private static final Pattern CRLF = Pattern.compile("\r\n");
     private static JTextArea textArea;
 
-    private final List<SmtpMessage> receivedMail;
+    private final List<SmtpMail> receivedMail;
 
     private final ServerSocket serverSocket;
 
@@ -54,7 +56,7 @@ public final class SmtpServer {
         return serverSocket.getLocalPort();
     }
 
-    public List<SmtpMessage> getReceivedEmails() {
+    public List<SmtpMail> getReceivedEmails() {
         synchronized (receivedMail) {
             return Collections.unmodifiableList(new ArrayList<>(receivedMail));
         }
@@ -101,7 +103,7 @@ public final class SmtpServer {
         }
     }
 
-    private static List<SmtpMessage> handleTransaction(PrintWriter out, Iterator<String> input) {
+    private static List<SmtpMail> handleTransaction(PrintWriter out, Iterator<String> input) {
         SmtpState smtpState = SmtpState.CONNECT;
         SmtpRequest smtpRequest = new SmtpRequest(SmtpActionType.CONNECT, "", smtpState);
 
@@ -110,8 +112,8 @@ public final class SmtpServer {
         sendResponse(out, smtpResponse);
         smtpState = smtpResponse.getNextState();
 
-        List<SmtpMessage> msgList = new ArrayList<>();
-        SmtpMessage msg = new SmtpMessage();
+        List<SmtpMail> msgList = new ArrayList<>();
+        SmtpMail msg = new SmtpMail();
 
         while (smtpState != SmtpState.CONNECT) {
             String line = input.next();
@@ -120,20 +122,21 @@ public final class SmtpServer {
                 break;
             }
 
-            SmtpRequest request = SmtpRequest.createRequest(line, smtpState);
-            SmtpResponse response = request.execute();
+            Command command = SmtpRequest.findCommand(line, smtpState,msg);
+            SmtpResponse response = command.execute();
             smtpState = response.getNextState();
             sendResponse(out, response);
 
-            String params = request.params;
-            msg.store(response, params);
+          //  String params = command.params;
+            //msg.store(response, params);
             if (smtpState == SmtpState.GREET) {
-                msg = new SmtpMessage();
+                msg = new SmtpMail();
             }
             if (smtpState == SmtpState.QUIT) {
                 msgList.add(msg);
                 System.out.println(msg);
-                msg = new SmtpMessage();
+                msg = new SmtpMail();
+                return msgList;
 
             }
         }

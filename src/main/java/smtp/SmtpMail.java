@@ -5,14 +5,29 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SmtpMessage {
+public class SmtpMail {
     private Map<String, List<String>> headers;
     private String sender;
+    private String sendType;
+    private List<String> receivers;
     private StringBuilder body;
 
-    public SmtpMessage() {
+    public SmtpMail() {
+        receivers = new ArrayList<>();
         headers = new LinkedHashMap<>();
         body = new StringBuilder();
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public void setSendType(String type) {
+        this.sendType = type;
+    }
+
+    public void addReceiver(String receiver) {
+        receivers.add(receiver);
     }
 
     public void store(SmtpResponse response, String params) {

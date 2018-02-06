@@ -1,11 +1,11 @@
 package smtp;
 
-class SmtpResponse {
+public class SmtpResponse {
     private int code;
     private String message;
     private SmtpState nextState;
 
-    SmtpResponse(int code, String message, SmtpState next) {
+    public SmtpResponse(int code, String message, SmtpState next) {
         this.code = code;
         this.message = message;
         this.nextState = next;
