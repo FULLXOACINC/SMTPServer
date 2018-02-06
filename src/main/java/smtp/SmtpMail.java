@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class SmtpMessage {
     private Map<String, List<String>> headers;
+    private String sender;
     private StringBuilder body;
 
     public SmtpMessage() {
@@ -38,6 +39,11 @@ public class SmtpMessage {
             headers.put(name, valueList);
         }
         valueList.add(value);
+    }
+
+    public void clear() {
+        headers = new LinkedHashMap<>();
+        body = new StringBuilder();
     }
 
     @Override
