@@ -5,26 +5,6 @@
       <element id="module-output" name="smtp" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/javax/activation/activation/1.1/activation-1.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/javax/mail/mail/1.4.3-rc1/mail-1.4.3-rc1.jar" path-in-jar="/" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/command/Command.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/command/impl/VRFYCommand.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/command/impl/ResetCommand.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/command/impl/ReadInformationCommand.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/command/impl/RCPTCommand.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/command/impl/QuitCommand.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/command/impl/NoopCommand.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/command/impl/MailCommand.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/command/impl/HelpCommand.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/command/impl/HelloCommand.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/command/impl/EXPNCommand.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/command/impl/DataEndCommand.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/command/impl/DataCommand.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/command/impl/ConnectCommand.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/command/impl/factory/CommandFactory.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/smtp/SmtpMail.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/smtp/SmtpResponse.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/smtp/SmtpServer.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/smtp/SmtpState.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/by/zhuk/smtpserver/validater/ClientNameValidator.java" />
     </root>
   </artifact>
 </component>
