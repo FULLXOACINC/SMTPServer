@@ -1,7 +1,7 @@
 package by.zhuk.smtpserver.smtp;
 
 import by.zhuk.smtpserver.command.Command;
-import by.zhuk.smtpserver.command.impl.CommandFactory;
+import by.zhuk.smtpserver.command.impl.factory.CommandFactory;
 
 import javax.swing.*;
 import java.awt.*;

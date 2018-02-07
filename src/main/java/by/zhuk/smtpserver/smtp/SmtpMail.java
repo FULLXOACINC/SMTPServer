@@ -1,5 +1,7 @@
 package by.zhuk.smtpserver.smtp;
 
+import by.zhuk.smtpserver.keeper.Keeper;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -7,23 +9,15 @@ import java.util.Map;
 
 public class SmtpMail {
     private Map<String, List<String>> headers;
-    private String sender;
-    private String sendType;
     private List<String> receivers;
     private StringBuilder body;
+    private List<Keeper> keepers;
 
     public SmtpMail() {
+        keepers = new ArrayList<>();
         receivers = new ArrayList<>();
         headers = new LinkedHashMap<>();
         body = new StringBuilder();
-    }
-
-    public String getSender() {
-        return sender;
-    }
-
-    public String getSendType() {
-        return sendType;
     }
 
     public List<String> getReceivers() {
@@ -32,14 +26,6 @@ public class SmtpMail {
 
     public StringBuilder getBody() {
         return body;
-    }
-
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
-
-    public void setSendType(String type) {
-        this.sendType = type;
     }
 
     public void addReceiver(String receiver) {
@@ -105,5 +91,13 @@ public class SmtpMail {
             }
         }
         return messageId;
+    }
+
+    public List<Keeper> getKeepers() {
+        return keepers;
+    }
+
+    public void addKeeper(Keeper keeper) {
+        keepers.add(keeper);
     }
 }

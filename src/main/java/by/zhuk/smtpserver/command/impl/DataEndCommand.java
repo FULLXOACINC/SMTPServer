@@ -1,13 +1,13 @@
 package by.zhuk.smtpserver.command.impl;
 
 
+import by.zhuk.smtpserver.keeper.Keeper;
 import by.zhuk.smtpserver.smtp.SmtpResponse;
 import by.zhuk.smtpserver.smtp.SmtpMail;
 import by.zhuk.smtpserver.smtp.SmtpState;
 import by.zhuk.smtpserver.command.Command;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.util.List;
 
 public class DataEndCommand implements Command {
     private SmtpMail mail;
@@ -26,23 +26,12 @@ public class DataEndCommand implements Command {
         } else {
             response = new SmtpResponse(503, "Bad sequence of command", this.state);
         }
-        save(mail);
+        List<Keeper> keepers = mail.getKeepers();
+        for (Keeper keeper : keepers) {
+            keeper.save(mail);
+        }
         mail.clear();
         return response;
     }
 
-    private void save(SmtpMail mail) {
-        String mailId = mail.findMailId();
-        if (mailId == null) {
-            mailId = mail.toString();
-        }
-        for (String receiver : mail.getReceivers()) {
-            try (PrintWriter out = new PrintWriter(mail.getSendType() + "/" + receiver + "/" + mailId)) {
-                out.println(mail.toString());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
 }

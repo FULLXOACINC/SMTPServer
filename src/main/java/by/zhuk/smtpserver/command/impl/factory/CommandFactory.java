@@ -1,6 +1,22 @@
 
-package by.zhuk.smtpserver.command.impl;
+package by.zhuk.smtpserver.command.impl.factory;
 
+import by.zhuk.smtpserver.command.impl.ConnectCommand;
+import by.zhuk.smtpserver.command.impl.DataCommand;
+import by.zhuk.smtpserver.command.impl.DataEndCommand;
+import by.zhuk.smtpserver.command.impl.EXPNCommand;
+import by.zhuk.smtpserver.command.impl.HelloCommand;
+import by.zhuk.smtpserver.command.impl.HelpCommand;
+import by.zhuk.smtpserver.command.impl.MailCommand;
+import by.zhuk.smtpserver.command.impl.NoopCommand;
+import by.zhuk.smtpserver.command.impl.QuitCommand;
+import by.zhuk.smtpserver.command.impl.RCPTCommand;
+import by.zhuk.smtpserver.command.impl.ReadInformationCommand;
+import by.zhuk.smtpserver.command.impl.ResetCommand;
+import by.zhuk.smtpserver.command.impl.SAMLCommand;
+import by.zhuk.smtpserver.command.impl.SOMLCommand;
+import by.zhuk.smtpserver.command.impl.SendCommand;
+import by.zhuk.smtpserver.command.impl.VRFYCommand;
 import by.zhuk.smtpserver.smtp.SmtpMail;
 import by.zhuk.smtpserver.smtp.SmtpState;
 import by.zhuk.smtpserver.command.Command;
@@ -54,6 +70,21 @@ public class CommandFactory {
             case "MAIL": {
                 params = line.substring("MAIL FROM:".length());
                 command = new MailCommand(mail, params, state);
+                break;
+            }
+            case "SEND": {
+                params = line.substring("SEND FROM:".length());
+                command = new SendCommand(mail, params, state);
+                break;
+            }
+            case "SOML": {
+                params = line.substring("SOML FROM:".length());
+                command = new SOMLCommand(mail, params, state);
+                break;
+            }
+            case "SAML": {
+                params = line.substring("SAML FROM:".length());
+                command = new SAMLCommand(mail, params, state);
                 break;
             }
             case "RCPT": {

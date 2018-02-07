@@ -2,17 +2,18 @@ package by.zhuk.smtpserver.command.impl;
 
 import by.zhuk.smtpserver.command.Command;
 import by.zhuk.smtpserver.keeper.impl.PostKeeper;
+import by.zhuk.smtpserver.keeper.impl.TerminalKeeper;
+import by.zhuk.smtpserver.smtp.SmtpMail;
 import by.zhuk.smtpserver.smtp.SmtpResponse;
 import by.zhuk.smtpserver.smtp.SmtpState;
 import by.zhuk.smtpserver.validater.ClientNameValidator;
-import by.zhuk.smtpserver.smtp.SmtpMail;
 
-public class MailCommand implements Command {
+public class SOMLCommand implements Command{
     private SmtpMail mail;
     private String params;
     private SmtpState state;
 
-    public MailCommand(SmtpMail mail, String params, SmtpState state) {
+    public SOMLCommand(SmtpMail mail, String params, SmtpState state) {
         this.mail = mail;
         this.params = params;
         this.state = state;
@@ -31,7 +32,13 @@ public class MailCommand implements Command {
         if (!ClientNameValidator.isClientExist(client)) {
             return new SmtpResponse(550, "Client not exist", this.state);
         }
-        mail.addKeeper(new PostKeeper());
+        if(mail.getReceivers().size()!=1){
+            mail.addKeeper(new TerminalKeeper());
+        }
+        else {
+            mail.addKeeper(new PostKeeper());
+        }
+
         return new SmtpResponse(250, "OK", SmtpState.RCPT);
     }
 }
