@@ -1,4 +1,4 @@
-package by.zhuk.smtpserver.validater;
+package by.zhuk.smtpserver.command;
 
 import java.io.File;
 import java.util.regex.Pattern;

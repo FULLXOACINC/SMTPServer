@@ -1,13 +1,12 @@
-package by.zhuk.smtpserver.keeper.impl;
+package by.zhuk.smtpserver.keeper;
 
-import by.zhuk.smtpserver.keeper.Keeper;
 import by.zhuk.smtpserver.smtp.SmtpMail;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
-public class TerminalKeeper implements Keeper{
-    private static String KEEP_PATH="terminal";
+public class PostKeeper implements Keeper {
+    private static String KEEP_PATH="post";
     @Override
     public void save(SmtpMail mail) {
         String mailId = mail.findMailId();

@@ -24,10 +24,6 @@ public class SmtpMail {
         return receivers;
     }
 
-    public StringBuilder getBody() {
-        return body;
-    }
-
     public void addReceiver(String receiver) {
         receivers.add(receiver);
     }
@@ -59,6 +55,8 @@ public class SmtpMail {
     }
 
     public void clear() {
+        keepers = new ArrayList<>();
+        receivers = new ArrayList<>();
         headers = new LinkedHashMap<>();
         body = new StringBuilder();
     }

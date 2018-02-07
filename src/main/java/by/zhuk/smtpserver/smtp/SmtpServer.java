@@ -1,7 +1,8 @@
 package by.zhuk.smtpserver.smtp;
 
 import by.zhuk.smtpserver.command.Command;
-import by.zhuk.smtpserver.command.impl.factory.CommandFactory;
+import by.zhuk.smtpserver.command.CommandFactory;
+import by.zhuk.smtpserver.command.ConnectCommand;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +19,7 @@ import java.util.regex.Pattern;
 
 public final class SmtpServer {
 
-    public static final int DEFAULT_SMTP_PORT = 1337;
+    public static final int DEFAULT_SMTP_PORT = 25;
 
     private static final Pattern CRLF = Pattern.compile("\r\n");
     private static JTextArea textArea;
@@ -56,6 +57,7 @@ public final class SmtpServer {
                 try {
                     serverSocket.close();
                 } catch (IOException ex) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -65,7 +67,7 @@ public final class SmtpServer {
         SmtpState smtpState = SmtpState.CONNECT;
         SmtpMail msg = new SmtpMail();
 
-        Command firstCommand = CommandFactory.findCommand("CONN", smtpState, msg);
+        Command firstCommand = new ConnectCommand(smtpState);
         SmtpResponse firstResponse = firstCommand.execute();
         sendResponse(out, firstResponse);
         smtpState = firstResponse.getNextState();

@@ -1,10 +1,8 @@
-package by.zhuk.smtpserver.command.impl;
+package by.zhuk.smtpserver.command;
 
-import by.zhuk.smtpserver.command.Command;
+import by.zhuk.smtpserver.smtp.SmtpMail;
 import by.zhuk.smtpserver.smtp.SmtpResponse;
 import by.zhuk.smtpserver.smtp.SmtpState;
-import by.zhuk.smtpserver.validater.ClientNameValidator;
-import by.zhuk.smtpserver.smtp.SmtpMail;
 
 public class RCPTCommand implements Command {
     private SmtpMail mail;

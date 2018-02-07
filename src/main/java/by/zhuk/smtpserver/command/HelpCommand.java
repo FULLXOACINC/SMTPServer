@@ -1,6 +1,5 @@
-package by.zhuk.smtpserver.command.impl;
+package by.zhuk.smtpserver.command;
 
-import by.zhuk.smtpserver.command.Command;
 import by.zhuk.smtpserver.smtp.SmtpResponse;
 import by.zhuk.smtpserver.smtp.SmtpState;
 
@@ -25,6 +24,10 @@ public class HelpCommand implements Command {
     @Override
     public SmtpResponse execute() {
         List<String> list = new ArrayList<>();
+        final int COMMAND_SIZE = 4;
+        if (params.length() < COMMAND_SIZE) {
+            return new SmtpResponse(502, "Command not supported ", state);
+        }
         String command = params.substring(1, params.length() - 1);
 
         try (Stream<String> stream = Files.lines(Paths.get(PATH))) {
@@ -35,11 +38,11 @@ public class HelpCommand implements Command {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(list.isEmpty()){
-            return new SmtpResponse(502,"Command to supported "+command,state);
+        if (list.isEmpty()) {
+            return new SmtpResponse(502, "Command not supported ", state);
         }
 
-        return new SmtpResponse(214,list.get(0),state);
+        return new SmtpResponse(214, list.get(0), state);
 
     }
 }
