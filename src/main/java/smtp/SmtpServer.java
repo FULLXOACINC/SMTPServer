@@ -105,15 +105,15 @@ public final class SmtpServer {
 
     private static List<SmtpMail> handleTransaction(PrintWriter out, Iterator<String> input) {
         SmtpState smtpState = SmtpState.CONNECT;
-        SmtpRequest smtpRequest = new SmtpRequest(SmtpActionType.CONNECT, "", smtpState);
+        SmtpMail msg = new SmtpMail();
 
-        SmtpResponse smtpResponse = smtpRequest.execute();
-
-        sendResponse(out, smtpResponse);
-        smtpState = smtpResponse.getNextState();
+        Command firstCommand = SmtpRequest.findCommand("CONN",smtpState,msg);
+        SmtpResponse firstResponse = firstCommand.execute();
+        sendResponse(out, firstResponse);
+        smtpState = firstResponse.getNextState();
 
         List<SmtpMail> msgList = new ArrayList<>();
-        SmtpMail msg = new SmtpMail();
+
 
         while (smtpState != SmtpState.CONNECT) {
             String line = input.next();
@@ -127,15 +127,12 @@ public final class SmtpServer {
             smtpState = response.getNextState();
             sendResponse(out, response);
 
-          //  String params = command.params;
-            //msg.store(response, params);
             if (smtpState == SmtpState.GREET) {
                 msg = new SmtpMail();
             }
             if (smtpState == SmtpState.QUIT) {
                 msgList.add(msg);
                 System.out.println(msg);
-                msg = new SmtpMail();
                 return msgList;
 
             }

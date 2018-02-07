@@ -30,9 +30,9 @@ public class SmtpMail {
         receivers.add(receiver);
     }
 
-    public void store(SmtpResponse response, String params) {
+    public void store(SmtpState state, String params) {
         if (params != null) {
-            if (SmtpState.DATA_HDR.equals(response.getNextState())) {
+            if (SmtpState.DATA_HDR.equals(state)) {
                 int headerNameEnd = params.indexOf(':');
                 if (headerNameEnd >= 0) {
                     String name = params.substring(0, headerNameEnd).trim();
@@ -40,7 +40,7 @@ public class SmtpMail {
                     addHeader(name, value);
                 }
             } else {
-                if (SmtpState.DATA_BODY == response.getNextState()) {
+                if (SmtpState.DATA_BODY == state) {
                     body.append(params);
                 }
             }

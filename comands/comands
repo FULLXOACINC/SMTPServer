@@ -1,0 +1,13 @@
+EHLO Client start work with server
+MAIL Mail sending from ...
+RCPT Mail sending to...
+DATA Send mail to sesver
+QUIT Client end work with server
+RSET Removes all information about the client's communication with the server
+VRFY Check is server exist this client address
+EXPN Get all client
+HELP Return description of server command
+NOOP Return OK if server is work
+SEND Send to terminal
+SOML Send to terminal or mail
+SAML Send to terminal and mail

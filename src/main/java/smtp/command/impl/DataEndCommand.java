@@ -1,16 +1,17 @@
 package smtp.command.impl;
 
 import smtp.SmtpActionType;
+import smtp.SmtpMail;
 import smtp.SmtpResponse;
 import smtp.SmtpState;
 import smtp.command.Command;
 
 public class DataEndCommand implements Command {
-    private SmtpActionType actionType;
+    private SmtpMail mail;
     private SmtpState state;
 
-    public DataEndCommand(SmtpActionType actionType, SmtpState state) {
-        this.actionType = actionType;
+    public DataEndCommand(SmtpState state, SmtpMail mail) {
+        this.mail = mail;
         this.state = state;
     }
 
@@ -20,8 +21,14 @@ public class DataEndCommand implements Command {
         if (SmtpState.DATA_HDR == state || SmtpState.DATA_BODY == state) {
             response = new SmtpResponse(250, "OK", SmtpState.QUIT);
         } else {
-            response = new SmtpResponse(503, "Bad sequence of commands: " + actionType, this.state);
+            response = new SmtpResponse(503, "Bad sequence of command", this.state);
         }
+        save(mail);
+        mail.clear();
         return response;
+    }
+
+    private void save(SmtpMail mail) {
+
     }
 }
